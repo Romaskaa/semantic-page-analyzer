@@ -5,13 +5,9 @@ import numpy as np
 
 client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key="")
 
-# Модель для embedding
 embed_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
 def retrieve_relevant_chunks(topic, knowledge_text, top_k=5, chunk_size=500):
-    """
-    Разбивает базу знаний на куски и выбирает наиболее релевантные по embedding
-    """
     chunks = [knowledge_text[i:i+chunk_size] for i in range(0, len(knowledge_text), chunk_size)]
     topic_vec = embed_model.encode([topic])
     chunk_vecs = embed_model.encode(chunks)
